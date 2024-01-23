@@ -1,0 +1,88 @@
+/* Estilos para el cuadro */
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    background-color: #21B8A6;
+    font-weight: 600;
+    margin: 0;
+}
+
+.container {
+    width: 400px; /* Ancho del cuadro */
+    max-width: 100%;
+    margin: 80px auto; /* Centra el cuadro horizontalmente */
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #fff;
+}
+
+/* Estilos para los botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.btn.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+
+
+/* Estilos para etiquetas y campos de entrada */
+.label-plataforma {
+    display: block;
+    margin-bottom: 5px;
+    margin-right: 240px;
+}
+
+.label-url{
+    display: block;
+    margin-bottom: 5px;
+    margin-right: 290px;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px auto;
+    border: 1px solid #d8d6d6;
+    border-radius: 4px;
+    outline: none;
+    background-color: #f2f2f2; 
+    font-size: 16px;
+}
+
+/* Estilos para hacer los botones responsivos */
+@media (max-width: 768px) {
+    .btn {
+        /* Hacer que los botones ocupen todo el ancho en pantallas pequeñas */
+        margin: 5px 0; /* Espacio entre botones */
+    }
+}

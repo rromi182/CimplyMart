@@ -1,0 +1,233 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    background-image: linear-gradient(rgba(5,5,5,0.5), rgba(5,5,5,0.5)),
+    url(../img/supermarket-department-store.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin-top: 20px;
+}
+
+main{
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    height: 100vh; /* 100% del alto de la ventana */
+}
+
+.contenedor__todo{
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    top: 180px;
+}
+
+.caja__trasera {
+    display: flex;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background-color: #476072;
+    overflow: hidden;
+    max-width: 450px;
+    margin: auto; /* Añadido para centrar horizontalmente */
+    top: 150px; /* Ajusta según sea necesario */
+}
+
+.caja__trasera div {
+    margin: 180px; /* Ajusta el margen según sea necesario */
+    max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+    color: white;
+    transition: all 500ms;
+}
+
+.caja__trasera div p,
+.caja__trasera div button{
+    margin-top: 30px;
+}
+
+.caja__trasera div h3{
+    font-weight: 550;
+    font-size: 25px;
+}
+
+.caja__trasera button{
+    padding: 10px 40px;
+    border: 2px solid white;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    transition: all 300ms;
+}
+
+.caja__trasera button:hover{
+    background: #fff;
+    color: #476072;
+}
+
+.form-control {
+    box-shadow: none;
+}
+
+/* Estilo para desactivar el resaltado al hacer clic en los campos de entrada */
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/* Estilo para desactivar el resaltado al hacer clic en los campos de entrada con feedback */
+.has-feedback .form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/*Formularios*/
+/*.contenedor__login-register{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    top: -185px;
+    left: 12px;
+
+    transition: left 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}*/
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%; /* Ajusta según sea necesario */
+    height: auto;
+    max-height: 120px;
+    margin-bottom: 10px; /* Ajusta según sea necesario */
+    margin-left: 105px;
+}
+
+
+.contenedor__login-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    top: -180px; /* Ajusta según sea necesario */
+    margin: auto; /* Añadido para centrar horizontalmente */
+    background: #476072; /* Color verde de fondo */
+    border-radius: 20px; /* Borde redondeado */
+}
+
+/*.contenedor__login-register form{
+    width: 100%;
+    padding: 80px 20px;
+    background: white;
+    position: absolute;
+    border-radius: 20px;
+}*/
+
+.contenedor__login-register form{
+    width: 100%;
+    padding: 40px 20px;
+    background: white;
+    position: absolute;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera para resaltar */
+}
+
+.contenedor__login-register form h4{
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 5px;
+  color: #476072;
+  font-family: 'Roboto', sans-serif;
+}
+
+.contenedor__login-register form input{
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background: #f2f2f2;
+    font-size: 15px;
+    outline: none;
+}
+
+.contenedor__login-register form .ingresar-btn{
+    padding: 10px 40px;
+    margin-top: 40px;
+    border: none;
+    font-size: 14px;
+    background: #476072;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.formulario__login button {
+    display: block;
+    margin: 20px auto 0; /* Ajusta el margen superior según sea necesario y utiliza auto para centrar horizontalmente */
+}
+
+.formulario__login{
+    opacity: 1;
+    display: block;
+}
+
+.formulario__register{
+    display: none;
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 850px) {
+    main {
+        margin-top: 5%;
+    }
+
+    .caja__trasera {
+        max-width: 200%;
+        height: auto;
+        flex-direction: column;
+        margin: 5% auto;
+    }
+
+    .caja__trasera div {
+        margin: 0;
+        position: static;
+    }
+
+    /* Formulario */
+
+    .contenedor__login-register {
+        top: -80px; /* Ajustado a un valor específico */
+        left: 0;
+        margin: auto;
+        z-index: 1;
+    }
+
+    .contenedor__login-register form {
+        position: relative;
+        margin-top: 10%; /* Ajustado para centrar verticalmente */
+    }
+}
+
+

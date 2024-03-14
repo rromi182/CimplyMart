@@ -23,7 +23,7 @@ if ($_GET['form'] == 'add') { ?>
                             <a href="<?php echo $url_inicio ?>" style="color: inherit; text-decoration: none;">
                                 <li class="fa fa-home" style="margin: 5px;"></li> Inicio
                             </a>
-                            <a href="#" style="color: inherit; text-decoration: none;">
+                            <a href="<?php echo $url_compra_view ?>" style="color: inherit; text-decoration: none;">
                                 <li class="fas fa-angle-right" style="margin: 5px;"></li> Compras
                             </a>
                             <a href="#" style="color: inherit; text-decoration: none;">
@@ -37,7 +37,7 @@ if ($_GET['form'] == 'add') { ?>
 
         <section class="content">
             <div class="row">
-                <div class="col-md-10 mx-auto">
+                <div class="col-md-12 mx-auto">
                     <div class="box box-primary">
                         <!-- general form elements -->
                         <div class="card card-info center">
@@ -61,7 +61,7 @@ if ($_GET['form'] == 'add') { ?>
                                     ?>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label"
-                                            style="margin-left: 10px; margin-top:15px;">Código</label>
+                                            style="margin-left: 20px; margin-top:15px;">Código</label>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" style="margin-top: 15px" name="codigo"
                                                 value="<?php echo $codigo; ?>" readonly>
@@ -86,31 +86,22 @@ if ($_GET['form'] == 'add') { ?>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" style="margin-left: 10px">Proveedor</label>
-                                        <div class="col-sm-3">
+                                        <!-- <label class="col-sm-2 col-form-label" style="margin-left: 10px">Proveedor</label> -->
+                                        <!-- <div class="col-sm-3">
                                             <select class="form-control select2" name="codigo_proveedor"
                                                 data-placeholder="-- Seleccionar Proveedor --" autocomplete="off" required>
                                                 <option value="">Seleccionar Proveedor</option>
                                                 <?php
-                                                $query_prov = mysqli_query($mysqli, "SELECT cod_proveedor, razon_social, ruc
-                                            FROM proveedor
-                                            ORDER BY cod_proveedor ASC") or die('Error' . mysqli_error($mysqli));
-                                                while ($data_prov = mysqli_fetch_assoc($query_prov)) {
-                                                    echo "<option value=\"$data_prov[cod_proveedor]\">$data_prov[razon_social] | $data_prov[ruc]</option>";
-                                                }
+                                            //     $query_prov = mysqli_query($mysqli, "SELECT cod_proveedor, razon_social, ruc
+                                            // FROM proveedor
+                                            // ORDER BY cod_proveedor ASC") or die('Error' . mysqli_error($mysqli));
+                                            //     while ($data_prov = mysqli_fetch_assoc($query_prov)) {
+                                            //         echo "<option value=\"$data_prov[cod_proveedor]\">$data_prov[razon_social] | $data_prov[ruc]</option>";
+                                            //     }
                                                 ?>
                                             </select>
-                                        </div>
-
-                                        <label class="col-sm-2 col-form-label">N° de Factura</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="nro_factura" autocomplete="off"
-                                                required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" style="margin-left: 10px;">Depósito</label>
+                                        </div> -->
+                                        <label class="col-sm-2 col-form-label" style="margin-left: 20px;">Depósito</label>
                                         <div class="col-sm-3">
                                             <select class="form-control select2" name="codigo_deposito"
                                                 data-placeholder="-- Seleccionar  Depósito --" autocomplete="off" required>
@@ -125,10 +116,46 @@ if ($_GET['form'] == 'add') { ?>
                                                 ?>
                                             </select>
                                         </div>
+                                        <?php
+                                    //Método para generar código
+                                    // $factura_nro = mysqli_query($mysqli, "SELECT MAX(nro_factura) as id FROM compra")
+                                    //     or die('Error' . mysqli_error($mysqli));
+
+                                    // $count1 = mysqli_num_rows($factura_nro);
+                                    // if ($count1 <> 0) {
+                                    //     $data_nro = mysqli_fetch_assoc($factura_nro);
+                                    //     $nro = $data_nro['id'] + 1;
+                                    // } else {
+                                    //     $nro = 1;
+                                    // }
+                                    ?>
+                                        <label class="col-sm-2 col-form-label">N° de Factura</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="nro_factura" autocomplete="off"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label" style="margin-left: 20px;">Orden de Compra</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control select2" name="id_orden_compra"
+                                                data-placeholder="-- Seleccionar Orden --" autocomplete="off" required
+                                                onchange="cargarTabla(this.value)">
+                                                <option value="">Seleccionar Orden</option>
+                                                <?php
+                                                $query = mysqli_query($mysqli, "SELECT *
+                                            FROM orden_compra WHERE estado = 'aprobado'
+                                            ORDER BY id_orden_compra ASC") or die('Error' . mysqli_error($mysqli));
+                                                while ($data = mysqli_fetch_assoc($query)) {
+                                                    echo "<option value=\"$data[id_orden_compra]\">Cod.: $data[id_orden_compra] |Fecha: $data[fecha_registro]</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                     <br>
                                     <hr>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="col-sm-12">
                                             <label class="col-sm-2 control-label">Productos</label>
                                             <button type="button" class="btn btn-info" data-toggle="modal"
@@ -136,10 +163,10 @@ if ($_GET['form'] == 'add') { ?>
                                                 <span class="fa fa-plus">Agregar Productos</span>
                                             </button>
                                         </div>
-                                    </div>
-                                    <div id="resultados" class="col-md-9"></div>
+                                    </div> -->
+                                    <div id="tablaDetalles" class="col-md-9"></div>
 
-
+                                    <!-- Cargar tabla de los detalles de la orden de compra -->
 
                                     <div class="box-footer">
                                         <div class="form-group">
@@ -169,103 +196,42 @@ if ($_GET['form'] == 'add') { ?>
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 
+
     <script>
         $(document).ready(function () {
-            load(1);
+            cargarTabla(idOrden); // Asegúrate de tener el valor correcto aquí
         });
 
-        function load(page) {
-            var x = $("#x").val();
-            var parametros = { "action": "ajax", "page": page, "x": x };
-            $("#loader").fadeIn('slow');
+        function cargarTabla(idOrden) {
             $.ajax({
-                url: '../../ajax/productos_pedido.php',
-                data: parametros,
-                beforeSend: function (objeto) {
-                    $('#loader').html('<img src="../../images/ajax-loader.gif"> Cargando...');
+                url: '../../ajax/cargarTablaCompra.php',
+                method: 'GET',
+                data: { id_orden: idOrden },
+                success: function (response) {
+                    // Actualiza la tabla con los detalles del pedido
+                    $('#tablaDetalles').html(response);
                 },
-                success: function (data) {
-                    $(".outer_div").html(data).fadeIn('slow');
-                    $('#loader').html('');
+                error: function () {
+                    console.error('Error al obtener los detalles del pedido.');
                 }
-            })
+            });
+        }
+        function eliminarProducto(codigoProducto) {
+            // Eliminar la fila de la tabla en la interfaz de usuario
+            $('#tablaDetalles tr[data-codigo="' + codigoProducto + '"]').remove();
 
+            // Eliminar el producto correspondiente de la estructura de datos que se enviará al servidor
+            data = data.filter(item => item.codigoProducto !== codigoProducto);
         }
     </script>
+
     <script>
-        function agregar(id) {
-            var precio_compra = $('#precio_compra_' + id).val();
-            var cantidad = $('#cantidad_' + id).val();
-            if (isNaN(cantidad)) {
-                alert('Esto no es un nro');
-                document.getElementById('cantidad_' + id).focus();
-                return false;
-            }
-            if (isNaN(precio_compra)) {
-                alert('Esto no es un nro');
-                document.getElementById('precio_compra_' + id).focus();
-                return false;
-            }
-            //fin de la validación
-            var parametros = { "id": id, "precio_compra_": precio_compra, "cantidad": cantidad };
-            $.ajax({
-                type: "POST",
-                url: "../../ajax/agregar_pedido.php",
-                data: parametros,
-                beforeSend: function (objeto) {
-                    $("#resultados").html("Mensaje: Cargando...");
-                },
-                success: function (datos) {
-                    $("#resultados").html(datos);
-                }
-            });
-        }
-        function eliminar(id) {
-            $.ajax({
-                type: "GET",
-                url: "../../ajax/agregar_pedido.php",
-                data: "id=" + id,
-                beforeSend: function (objeto) {
-                    $("#resultados").html("Mensaje: Cargando...");
-                },
-                success: function (datos) {
-                    $("#resultados").html(datos);
-                }
-            });
-        }
-
+        // Agrega un evento al hacer clic en el ID del pedido
+        $('select[name="id_orden_compra"]').on('change', function () {
+            var idOrdenSeleccionado = $(this).val();
+            cargarTabla(idOrdenSeleccionado);
+        });
     </script>
-
-
-    <div class="modal fade bs-example-modal-lg modal" id="myModal" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Buscar Productos</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="x" placeholder="Buscar productos"
-                                    onkeyup="load(1)">
-                            </div>
-                            <button type="button" class="btn btn-default" onclick="load(1)"><span
-                                    class="fa fa-search"></span>Buscar</button>
-                        </div>
-                    </form>
-                    <div id="loader"
-                        style="position: absolute; text-align: center; top: 55px; width:100%; display:none;"></div>
-                    <div class="outer_div"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <?php include "../../views/footer.php"; ?>

@@ -19,7 +19,9 @@ if ($_GET['form'] == 'add') { ?>
                             <a href="<?php echo $url_inicio ?>" style="color: inherit; text-decoration: none;">
                                 <li class="fa fa-home" style="margin: 5px;"></li> Inicio
                             </a>
-                            <a href="#" style="color: inherit; text-decoration: none;">Ciudades</a>
+                            <a href="<?php echo $url_ciudad ?>" style="color: inherit; text-decoration: none;">
+                                <li class="fas fa-angle-right" style="margin: 5px;"></li>Ciudades
+                            </a>
                             <a href="#" style="color: inherit; text-decoration: none;">
                                 <li class="fas fa-angle-right" style="margin: 5px;"></li> Agregar Ciudad
                             </a>
@@ -69,7 +71,7 @@ if ($_GET['form'] == 'add') { ?>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Departamento</label>
                                         <div class="col-sm-3">
-                                            <select name="departamento" class="form-control">
+                                            <select name="departamento" class="form-control" required>
                                                 <option value="">Seleccionar Departamento</option>
                                                 <?php
                                                 $query_prov = mysqli_query($mysqli, "SELECT *
@@ -87,7 +89,7 @@ if ($_GET['form'] == 'add') { ?>
                                         <label class="col-sm-2 control-label">Descripción</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control" name="descrip_ciudad"
-                                                pleaceholder="Ingresa una ciudad" required>
+                                                placeholder="Ingresa una ciudad" required>
                                         </div>
                                     </div>
 
@@ -137,7 +139,7 @@ if ($_GET['form'] == 'add') { ?>
                                 <a href="<?php echo $url_inicio ?>" style="color: inherit; text-decoration: none;">
                                     <li class="fa fa-home" style="margin: 5px;"></li> Inicio
                                 </a>
-                                <a href="#" style="color: inherit; text-decoration: none;">
+                                <a href="<?php echo $url_ciudad ?>" style="color: inherit; text-decoration: none;">
                                     <li class="fas fa-angle-right" style="margin: 5px;"></li> Ciudades
                                 </a>
                                 <a href="#" style="color: inherit; text-decoration: none;">
@@ -183,13 +185,13 @@ if ($_GET['form'] == 'add') { ?>
                                                         <?php echo $data['dep_descripcion'] ?>
                                                     </option>
                                                     <?php
-                                                $query_prov = mysqli_query($mysqli, "SELECT *
+                                                    $query_prov = mysqli_query($mysqli, "SELECT *
                                                FROM departamento
                                                ORDER BY id_departamento ASC") or die('Error' . mysqli_error($mysqli));
-                                                while ($data_prov = mysqli_fetch_assoc($query_prov)) {
-                                                    echo "<option value=\"$data_prov[id_departamento]\">$data_prov[id_departamento] | $data_prov[dep_descripcion]</option>";
-                                                }
-                                                ?>
+                                                    while ($data_prov = mysqli_fetch_assoc($query_prov)) {
+                                                        echo "<option value=\"$data_prov[id_departamento]\">$data_prov[id_departamento] | $data_prov[dep_descripcion]</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -208,7 +210,8 @@ if ($_GET['form'] == 'add') { ?>
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <input type="submit" class="btn btn-primary btn-submit" name="Guardar"
                                                         value="Guardar">
-                                                    <a href="<?php echo $url_ciudad?>" class="btn btn-default btn-reset">Cancelar</a>
+                                                    <a href="<?php echo $url_ciudad ?>"
+                                                        class="btn btn-default btn-reset">Cancelar</a>
                                                 </div>
                                             </div>
                                         </div>

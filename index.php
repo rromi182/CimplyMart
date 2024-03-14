@@ -15,7 +15,7 @@ if (isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Comercial 2 Hermanas">
     <meta name="autor" content="Romina Almeida">
-    <title>Comercial 2 Hermanas - Login</title>
+    <title>CimplyMart - Login</title>
 
     <link rel="shortcut icon" href="assets/img/2hermanitasLogo.png">
 
@@ -63,8 +63,8 @@ if (isset($_SESSION['username'])) {
                     } elseif ($_GET['alert'] == 2) {
                         echo "<div class='alert alert-success alert-dismissable'>
                             <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                            <h6 style='font-size: 18px'> <i class='icon fa fa-times-circle'></i>¡Salida exitosa!</h6>
-                            <small>Ha cerrado sesión correctamente.</small>
+                            <h6 style='font-size: 18px'> <i class='icon fa fa-times-circle'></i>¡Sesión cerrada exitosamente!</h6>
+                            <small>¡Gracias por utilizar nuestro sistema!</small>
                         </div>";
                     }elseif($_GET['alert'] == 3){
                         echo "<div class='alert alert-danger alert-dismissable'>

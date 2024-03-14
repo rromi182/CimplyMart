@@ -1,7 +1,7 @@
 <?php include "../../views/header.php";
-$url_form_compras = $url_base."/modules/compras/form.php";
-    $url_proses =$url_base."/modules/compras/proses.php";
-    $url_print =$url_base."/modules/compras/print.php";
+$url_form_compras = $url_base . "/modules/compras/form.php";
+$url_proses = $url_base . "/modules/compras/proses.php";
+$url_print = $url_base . "/modules/compras/print.php";
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -21,7 +21,7 @@ $url_form_compras = $url_base."/modules/compras/form.php";
                             <li class="fa fa-home" style="margin: 5px;"></li> Inicio
                         </a>
                         <a href="#" style="color: inherit; text-decoration: none;">
-                            <li class="fas fa-angle-right" style="margin: 5px;"></li> Datos de Compra
+                            <li class="fas fa-angle-right" style="margin: 5px;"></li> Compras
                         </a>
                     </ol>
                 </div><!-- /.col -->
@@ -68,24 +68,60 @@ $url_form_compras = $url_base."/modules/compras/form.php";
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <!--Filtrar busqueda por fecha-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form role="form" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Filtrar por Fecha:</label>
+                                            <div class="col-sm-3">
+                                                <input type="date" class="form-control" name="fecha_inicio">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="date" class="form-control" name="fecha_fin">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="btn btn-primary">Filtrar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--/.Filtrar busqueda por fecha-->
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="center">Id</th>
+                                        <th class="center">Cod. Orden</th>
                                         <th class="center">Proveedor</th>
                                         <th class="center">Deposito</th>
                                         <th class="center">N° Fact.</th>
                                         <th class="center">Fecha</th>
                                         <th class="center">Hora</th>
                                         <th class="center">Total</th>
+                                        <th class="center">Estado</th>
                                         <th class="center">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $nro = 1;
-                                    $query = mysqli_query($mysqli, "SELECT * FROM v_compras WHERE estado='activo'")
-                                        or die('Error' . mysqli_error($mysqli));
+                                    $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : null;
+                                    $fecha_fin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : null;
+
+                                    if ($fecha_inicio && $fecha_fin) {
+                                        // Si se proporcionaron ambas fechas, filtra por el rango de fechas
+                                        $query = mysqli_query($mysqli, "SELECT * FROM v_compras WHERE estado IN ('activo', 'anulado')
+                                                                        AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin';")
+                                            or die('Error' . mysqli_error($mysqli));
+                                    } else {
+                                        // Si no se proporcionaron fechas, muestra todos los pedidos
+                                        $query = mysqli_query($mysqli, "SELECT * FROM v_compras WHERE estado IN ('activo', 'anulado');")
+                                            or die('Error' . mysqli_error($mysqli));
+                                    }
+
+                                    //$query = mysqli_query($mysqli, "SELECT * FROM v_compras WHERE estado='activo'")
+                                      //or die('Error' . mysqli_error($mysqli));
 
                                     while ($data = mysqli_fetch_assoc($query)) {
                                         $cod = $data['cod_compra'];
@@ -95,35 +131,40 @@ $url_form_compras = $url_base."/modules/compras/form.php";
                                         $fecha = $data['fecha'];
                                         $hora = $data['hora'];
                                         $total_compra = $data['total_compra'];
+                                        $estado = $data['estado'];
+                                        $cod_orden = $data['id_orden_compra'];
 
 
                                         echo "<tr>
                                <td class='center'>$nro</td>
+                               <td class='center'>$cod_orden</td>
                                <td class='center'>$id_cliente</td>
                                <td class='center'> $deposito</td>
                                <td class='center'>$nro_factura</td>
                                <td class='center'>$fecha</td>
                                <td class='center'>$hora</td>
-                               <td class='center'>$total_compra</td>                               
+                               <td class='center'>$total_compra</td>
+                               <td class='center'>$estado</td>                               
                                <td class='center' width='80'>
                                <div>"; ?>
                                         <a data-toggle="tooltip" data-placement="top" title="Anular Compra"
                                             class="btn btn-danger btn-sm"
-                                            href="<?php echo $url_proses?>?act=anular&cod_compra=<?php echo $data['cod_compra']; ?>"
+                                            href="<?php echo $url_proses ?>?act=anular&cod_compra=<?php echo $data['cod_compra']; ?>&id_orden_compra=<?php echo $data['id_orden_compra']; ?>"
                                             onclick="return confirm('Estás seguro/a de anular la factura <?php echo $data['nro_factura']; ?>?');">
                                             <i style="color:#000" class="fa fa-trash"></i>
                                         </a>
 
                                         <a data-toggle="tooltip" data-placement="top" title="Imprimir factura de compra"
                                             class="btn btn-warning btn-sm"
-                                            href="<?php echo $url_print?>?act=imprimir&cod_compra=<?php echo $data['cod_compra']; ?>"
+                                            href="<?php echo $url_print ?>?act=imprimir&cod_compra=<?php echo $data['cod_compra']; ?>"
                                             target="_blank">
                                             <i style="color:#000" class="fa fa-print"></i>
                                         </a>
                                         <?php echo "</div>
                                 </td>
                                 </tr>" ?>
-                                    <?php $nro++; }
+                                        <?php $nro++;
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -135,5 +176,5 @@ $url_form_compras = $url_base."/modules/compras/form.php";
             </div>
         </div>
     </section>
-    
+
     <?php include "../../views/footer.php"; ?>

@@ -1,7 +1,7 @@
 <?php include "../../views/header.php";
 $url_form_ventas = $url_base . "/modules/stock/form.php";
-$url_proses = $url_base . "/modules/ventas/proses.php";
-$url_print = $url_base . "/modules/ventas/print.php";
+$url_proses = $url_base . "/modules/stock/proses.php";
+$url_print = $url_base . "/modules/stock/print.php";
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -57,7 +57,7 @@ $url_print = $url_base . "/modules/ventas/print.php";
                     }
                     ?>
                     <div class="card">
-                    <?php
+                        <?php
                         if (!empty($_POST['cod_deposito'])) {
                             $cod_deposito = $_POST['cod_deposito'];
                         } else {
@@ -65,38 +65,70 @@ $url_print = $url_base . "/modules/ventas/print.php";
                         }
                         $query = mysqli_query($mysqli, "SELECT * FROM v_stock WHERE cod_deposito = $cod_deposito")
                             or die('Error' . mysqli_error($mysqli));
-                            while ($data = mysqli_fetch_assoc($query)) {
-                                $deposito = $data['descrip'];}
+                        while ($data = mysqli_fetch_assoc($query)) {
+                            $deposito = $data['descrip'];
+                        }
                         ?>
 
                         <div class="card-header">
-                            <h3 class="card-title">Stock de Productos: <?php echo $deposito?></h3>
+                            <h3 class="card-title">Stock de Productos:
+                                <?php echo $deposito ?>
+                            </h3>
                         </div>
-                        <form role="form" method="post">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"
-                                    style="margin-left: 20px; margin-top: 10px;">Buscar por Depósito</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="cod_deposito" style="margin-top: 10px;"
-                                        data-placeholder="-- Seleccionar  Depósito --" autocomplete="off" required>
-                                        <option value="">Seleccionar Depósito</option>
-                                        <?php
-                                        $query_dep = mysqli_query($mysqli, "SELECT cod_deposito, descrip
+                        <div class="form-group row">
+                            <form role="form" method="post">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label"
+                                        style="margin-left: 20px; margin-top: 10px;">Buscar por Depósito</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control" name="cod_deposito" style="margin-top: 10px;"
+                                            data-placeholder="-- Seleccionar  Depósito --" autocomplete="off" required>
+                                            <option value="">Seleccionar Depósito</option>
+                                            <?php
+                                            $query_dep = mysqli_query($mysqli, "SELECT cod_deposito, descrip
                                             FROM deposito
                                             ORDER BY cod_deposito ASC") or die('Error' . mysqli_error($mysqli));
-                                        while ($data_dep = mysqli_fetch_assoc($query_dep)) {
-                                            echo "<option value=\"$data_dep[cod_deposito]\">$data_dep[cod_deposito] | $data_dep[descrip]</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-3" style="margin-top: 10px">
-                                    <button type="submit" class="btn btn-default"><span
-                                            class="fa fa-search"></span>Buscar</button>
-                                </div>
-                            </div>
-                        </form>
+                                            while ($data_dep = mysqli_fetch_assoc($query_dep)) {
+                                                echo "<option value=\"$data_dep[cod_deposito]\">$data_dep[cod_deposito] | $data_dep[descrip]</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3" style="margin-top: 10px">
+                                        <button type="submit" class="btn btn-default"><span
+                                                class="fa fa-search"></span>Buscar</button>
+                                    </div>
 
+                                </div>
+                            </form>
+                            <!--Reporte por Codigo de Deposito-->
+                            <form role="form" method="post">
+                                <!-- ... (Código existente) ... -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label"
+                                        style="margin-left: 20px; margin-top: 10px;">Reporte por Deposito</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control" name="cod_deposito" style="margin-top: 10px;"
+                                            data-placeholder="-- Seleccionar  Depósito --" autocomplete="off" required>
+                                            <option value="all">Todos los Depósitos</option>
+                                            <?php
+                                            $query_dep = mysqli_query($mysqli, "SELECT cod_deposito, descrip FROM deposito ORDER BY cod_deposito ASC") or die('Error' . mysqli_error($mysqli));
+                                            while ($data_dep = mysqli_fetch_assoc($query_dep)) {
+                                                echo "<option value=\"$data_dep[cod_deposito]\">$data_dep[cod_deposito] | $data_dep[descrip]</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <a data-toggle="tooltip" data-placement="top" title="Imprimir Reporte de Stock"
+                                        class="btn btn-warning"
+                                        style="height: 40px; padding-top: 10px; padding-bottom: 3px; line-height: 15px; margin-top:10px"
+                                        href="<?php echo $url_print ?>?act=imprimir&cod_deposito="
+                                        onclick="updateCodDeposito()" target="_blank">
+                                        <i style="color:#000" class="fa fa-print"></i>Imprimir
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">
@@ -105,10 +137,11 @@ $url_print = $url_base . "/modules/ventas/print.php";
                                         <th class="center">Cod.Depósito</th>
                                         <th class="center">Depósito</th>
                                         <th class="center">Tip. Prod.</th>
+                                        <th class="center">Cod. Producto</th>
                                         <th class="center">Producto</th>
                                         <th class="center">U. Medida</th>
                                         <th class="center">Cantidad</th>
-                                        <th class="center">Acción</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,36 +163,42 @@ $url_print = $url_base . "/modules/ventas/print.php";
                                <td class='center'> $cod_depo</td>
                                <td class='center'> $deposito</td>
                                <td class='center'>$t_p_descrip</td>
+                               <td width='120' class='center'>$cod_pro</td>
                                <td class='center'>$producto</td>
                                <td class='center'>$u_medida</td>  
                                <td class='center'>$cantidad</td>                              
-                               <td class='center' width='80'>
+                               
                                <div>"; ?>
-                                        <a data-toggle="tooltip" data-placement="top" title="Imprimir Reporte de Stock"
-                                            class="btn btn-warning btn-sm"
-                                            href="<?php echo $url_print ?>?act=imprimir&cod_producto=<?php echo $data['cod_producto']; ?>"
-                                            target="_blank">
-                                            <i style="color:#000" class="fa fa-print"></i>
-                                        </a>
-                                        <!-- <a data-toggle='tooltip' data-placement='top' title='Ajustar Stock'
-                                            class='btn btn-primary btn-sm'
-                                            href='$url_user_form?form=edit&id=$data[id_user]'><i class='fas fa-edit'></i>
-                                        </a> -->
-                            </div>
-                            </td>
-                            <?php echo "</div>
+
+
+
+                                        <?php echo "</div>
                                 </td>
                                 </tr>" ?>
-                        <?php }
+                                    <?php }
                                     ?>
-                        </tbody>
-                        </table>
+                                </tbody>
+                            </table>
 
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
+    </section>
+    <script>
+        // JavaScript para actualizar el valor de $cod_deposito antes de hacer clic en el enlace de impresión
+        function updateCodDeposito() {
+            var selectedDeposito = document.getElementsByName("cod_deposito")[1].value;
+            var printLink = document.querySelector(".btn.btn-warning");
+
+            if (selectedDeposito === "all") {
+                printLink.href = "<?php echo $url_print ?>?act=imprimir&cod_deposito=all";
+            } else {
+                printLink.href = "<?php echo $url_print ?>?act=imprimir&cod_deposito=" + selectedDeposito;
+            }
+        }
+    </script>
 </div>
-</section>
 <?php include "../../views/footer.php"; ?>
